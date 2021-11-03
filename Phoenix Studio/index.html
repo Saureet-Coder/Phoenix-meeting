@@ -73,7 +73,7 @@
     
       <!-- Participants -->
       <div class="flex mt-6 space-x-6">
-        <video id="screenShare" class="w-3/4  rounded-xl " x-show="flags.shareScreen"></video>
+        <video autoplay id="screenShare" class="w-3/4  rounded-xl " x-show="flags.shareScreen"></video>
         <div class=" " x-show="meetingStarted" :class="!flags.shareScreen ? 'grid grid-cols-4 gap-6' :'w-1/4 grid grid-cols-2 gap-2' ">
           <video  id="myVideo" autoplay class="rounded-xl "></video>
           <template x-for="participant in participants">

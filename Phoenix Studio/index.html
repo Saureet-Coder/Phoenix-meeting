@@ -30,479 +30,621 @@
     
     <!-- -->
 </head>
-<body class="bg-gray-800 min-h-screen">
-  <div class="text-gray-100 container mx-auto" x-data="data()" >
-<!-- Not meeting Started -->
-    <!-- <div class="">
-      <img src="assets/undraw_Video_streaming_re_v3qg.svg" alt="" class="absolute  w-72 left-0" >
-      <img src="assets/undraw_Video_call_re_4p26.svg" alt="" class="absolute  w-72 right-0" >
-      <div class="flex items-center justify-center text-4xl font-bold text-green-200 ">Phoenix Studio</div>
-      <div class="flex items-center justify-center min-h-screen" x-show="!meetingStarted">
-        
-        <input type="text" class="py-1.5 px-4 border-2 border-gray-900 rounded-l focus:outline-none text-gray-900" placeholder="Enter Meeting Title" x-model="meetingTitle">
-        <button class="bg-gray-600 text-gray-100 py-2 px-4 rounded-r shadow" @click="createRoom()">Create Room</button>
-      
-        <div class="">Create Or Join A room</div>  
-      </div>
-    </div> -->
-    <div class="" x-show="!meetingStarted">
-      <img src="assets/undraw_Video_streaming_re_v3qg.svg" alt="" class="absolute h-56  left-0" >
-      <img src="assets/undraw_Video_call_re_4p26.svg" alt="" class="absolute h-56  right-0" >
-      <div class="text-5xl font-bold text-green-200 text-center mt-36 ">Phoenix Studio</div>
-      <div class="text-center" x-show="!meetingStarted">
-        
-        <div class="" >
-          <input type="text" class="py-1.5 px-4 border-2 border-gray-900 rounded-l text-gray-900" placeholder="Enter Meeting Title" x-model="meetingTitle" @click="createRoom()">
-          <button class="bg-gray-600 text-gray-100 py-2 px-4 rounded-r shadow mt-12" @click="createRoom()">Create A Meeting</button>
-        </div>
-        <div class="">
-          <input type="text" class="py-1.5 px-4 border-2 border-gray-900 rounded-l text-gray-900" placeholder="Enter Meeting Code" x-model="meetingCode" @click="joinRoom()">
-          <button class="bg-gray-600 text-gray-100 py-2 px-4 rounded-r shadow mt-12" @click="joinRoom()">Join A Existing Meeting</button>
-        </div>
-        <div class="mt-24">Hope You Enjoyed This Platform.Thanks For Visiting</div>
-      </div>
-    </div>
-     <!-- Footer -->
-     <footer>
-    
-      
-    <div x-show="!meetingStarted" class="p-6 md:p-16 text-center text-white">&copy; Saureet Chakrabarti</div>
-  </footer>
 
-  <div class="" x-show="meetingStarted">
-    
-      <!-- Participants -->
-      <div class="flex mt-6 space-x-6">
-        <video autoplay id="screenShare" class="w-3/4  rounded-xl " x-show="flags.shareScreen"></video>
-        <div class=" " x-show="meetingStarted" :class="!flags.shareScreen ? 'grid grid-cols-4 gap-6' :'w-1/4 grid grid-cols-2 gap-2' ">
-          <video  id="myVideo" autoplay class="rounded-xl "></video>
-          <template x-for="participant in participants">
-              <div class="relative">
-                  <img src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80" class="rounded-xl">
-                  <div class="absolute bottom-0 bg-gray-900 py-2 px-4 w-full bg-opacity-30 flex justify-between">
-                      <span x-text="participant.name"></span>
-                      <div class="flex" x-show="isAdmin">
-                          <button class="hover:bg-gray-800 rounded-full p-2">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                  <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd" />
-                              </svg>
-                          </button>
-                          <button class="hover:bg-gray-800 rounded-full p-2">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                  <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                              </svg>
-                          </button>
+<body class="bg-gray-800 text-gray-100">
+  <div class="container mx-auto min-h-screen flex flex-col" x-data="data()">
+      <!-- <div class="flex flex-col items-center justify-center min-h-screen" x-show="!meetingStarted">
+          <div>
+              <input type="text" class="py-1.5 px-4 border-2 border-gray-600 rounded-l focus:outline-none text-gray-900" placeholder="Enter Meeting Title" x-model="meetingTitle">
+              <button class="bg-gray-600 text-gray-100 py-2 px-4 rounded-r shadow -ml-2" @click="createRoom()">Create Room</button>
+          </div>
+          <div class="mt-4">OR</div>
+          <div class="mt-4">
+              <input type="text" class="py-1.5 px-4 border-2 border-gray-600 rounded-l focus:outline-none text-gray-900" placeholder="Enter Meeting ID" x-model="meetingCode">
+              <button class="bg-gray-600 text-gray-100 py-2 px-4 rounded-r shadow -ml-2" @click="joinRoom()">Join Room</button>
+          </div>
+      </div> -->
+      <template x-if="!meetingStarted">
+          <div class="flex items-center justify-center min-h-screen">
+              <div class="md:w-1/3 bg-white shadow-xl text-gray-900 p-4 rounded-xl">
+                  <div class="text-4xl text-center text-green-500 text-center">Fire Studio</div>
+                  <!-- Tabs -->
+                  <div class="p-4 pb-0 flex items-center">
+                      <button class="bg-blue-500 text-white py-2 px-4 rounded-t" @click="showCreateForm = true; showJoinForm = false;">Create meeting</button>
+                      <button class="bg-red-500 text-white py-2 px-4 rounded-t ml-1" @click="showJoinForm = true; showCreateForm = false;">Join meeting</button>
+                  </div>
+                  <!-- Create form -->
+                  <div class="p-4 border-2 border-green-500 mx-4 space-y-4" x-show="showCreateForm">
+                      <div class="">
+                          <input type="text" class="bg-gray-50 border border-green-300 py-2 px-4 focus:outline-none placeholder-green-300 w-full rounded" placeholder="Enter your name" x-model="hostName">
+                      </div>
+                      <div class="">
+                          <input type="text" class="bg-gray-50 border border-green-300 py-2 px-4 focus:outline-none placeholder-green-300 w-full rounded" placeholder="Enter Meeting Title" x-model="meetingTitle">
+                      </div>
+                      <div class="">
+                          <button class="bg-green-500 text-white py-2 px-4 rounded shadow" @click="createRoom()">Create Room</button>
+                      </div>                        
+                  </div>
+                  <!-- Join form -->
+                  <div class="p-4 border-2 border-blue-500 mx-4 space-y-4" x-show="showJoinForm">
+                      <div class="">
+                          <input type="text" class="bg-gray-50 border border-blue-300 py-2 px-4 focus:outline-none placeholder-blue-300 w-full rounded" placeholder="Enter your name" x-model="guestName">
+                      </div>
+                      <div class="">
+                          <input type="text" class="bg-gray-50 border border-blue-300 py-2 px-4 focus:outline-none placeholder-blue-300 w-full rounded" placeholder="Enter Meeting Code" x-model="meetingCode">
+                      </div>
+                      <div class="">
+                          <button class="bg-blue-500 text-white py-2 px-4 rounded shadow" @click="joinRoom()">Join Room</button>
+                      </div>                        
+                  </div>
+              </div>
+          </div>
+      </template>
+
+      <!-- <template> -->
+          <div class="flex relative">
+              <!-- Videos -->
+              <div class="flex mt-6 space-x-6" :class="flags.showParticipants ? 'w-3/4' : 'w-full'">
+                  <video autoplay id="screenShare" class="w-3/4 bg-white rounded-xl" x-show="flags.isScreenShared">
+                  Screen</video>
+                  <div class="" :class="!flags.isScreenShared ? 'grid grid-cols-4 gap-6' : 'w-1/4 grid grid-cols-2 gap-2'" x-show="meetingStarted">
+                      <div class="overflow-hidden rounded-xl relative" :class="flags.showParticipants ? 'h-44' : 'h-60'">
+                          <video id="myVideo" autoplay style="transform: scaleX(-1);"></video>
+                          <div class="sticky bottom-0 bg-gray-900 py-2 px-4 w-full bg-opacity-30 flex justify-between">
+                              <span x-text="hostName" class=""></span>
+                              <div class="flex" x-show="isAdmin">
+                                 
+                                 
+                              </div>
+                          </div>
+                      </div>
+                      <video id="remoteVideo" autoplay></video>
+                      <template x-for="(participant, i) in participants">
+                          <template x-if="i < 10">
+                              <div class="relative">
+                                  <img src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80" class="rounded-xl">
+                                  <div class="absolute bottom-0 bg-gray-900 py-2 px-4 w-full bg-opacity-30 flex justify-between">
+                                      <span x-text="participant.name"></span>
+                                      
+                                  </div>
+                              </div>
+                          </template>
+                      </template>
+                      <template x-if="participants.length == 11">
+                          <div class="relative">
+                              <img src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80" class="rounded-xl">
+                              <div class="absolute bottom-0 bg-gray-900 py-2 px-4 w-full bg-opacity-30 flex justify-between">
+                                  <span x-text="participants[10].name"></span>
+                                  <div class="flex" x-show="isAdmin">
+                                      <button class="hover:bg-gray-800 rounded-full p-2">
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                              <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd" />
+                                          </svg>
+                                      </button>
+                                      <button class="hover:bg-gray-800 rounded-full p-2">
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                              <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                                          </svg>
+                                      </button>
+                                  </div>
+                              </div>
+                          </div>
+                      </template>
+                      <template x-if="participants.length > 11">
+                          <div class="flex items-center justify-center text-2xl border rounded-xl"><div x-text="`+ ${participants.length - 10} more`"></div></div>
+                      </template>
+                  </div>
+              </div>
+              <!-- Participants -->
+              <div class="w-1/4 mt-6 ml-6 flex flex-col absolute right-0" x-show="flags.showParticipants">
+                  <div class="pl-6">
+                      <h3 class="text-2xl bg-black p-4 rounded-t-xl">Participants</h3>
+                      <div class="bg-white text-gray-900">
+                          <template x-for="(participant, i) in participants">
+                              <template x-if="i < 12">
+                                  <div class="flex items-center justify-between p-4" :class="i % 2 == 1 ? 'bg-white' : 'bg-gray-100'">
+                                      <span class="" x-text="participant.name"></span>
+                                      <div class="flex items-center">
+                                          <button class="relative" @click="participant.isMuted = !participant.isMuted">
+                                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                  <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd" />
+                                              </svg>
+                                              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-red-500 opacity-60 absolute -top-1 -left-1" viewBox="0 0 20 20" fill="currentColor" x-show="participant.isMuted">
+                                                  <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd" />
+                                              </svg>
+                                          </button>
+                                          <button class="h-6 w-6 bg-pink-500 text-white rounded-full flex items-center justify-center ml-2" @click="removeFromMeeting(participant)">
+                                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                  <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                              </svg>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </template>
+                          </template>
                       </div>
                   </div>
               </div>
-          </template>
-            </div>
-      </div>
-      <!-- Bottom Bar -->
-      <div class="absolute bottom-0 left-0 w-full p-8 bg-gray-900 flex justify-between items-center" >
-        <!-- Time -->
-        <span class="" x-text="time"></span>
-        <div class="flex items-center" x-show="meetingStarted">
-          <span x-ref="meetingCode" x-text="meetingCode"></span>
-          <!-- Copy to Clipboard -->
-          <a href="#" class="ml-3 mt-1  h-6 w-6 bg-gray-800 flex items-center justify-center rounded"
-            @click="navigator.clipboard.writeText($refs.meetingCode.innerHTML)"><svg xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg></a>
-        </div>
-    
-        <!-- Middle Bottom Bar -->
-        <div class="flex items-center justify-between space-x-4 ">
-          <a href="#" class="h-12 w-12 rounded-full bg-gray-800 flex items-center justify-center relative"
-            @click="toggleMic">
-            <!-- Microphone -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
-              x-bind:class="flags.isMic ? 'text-red-500  ' : ''">
-              <path fill-rule="evenodd"
-                d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"
-                clip-rule="evenodd" />
-            </svg>
-            <!-- Ban Microphone -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 absolute top-0 left-0" fill="none"
-              viewBox="0 0 24 24" stroke="currentColor" x-show="flags.isMic">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-            </svg>
-          </a>
-          <a href="#" class="h-12 w-12 rounded-full bg-gray-800 flex items-center justify-center relative"
-            @click="toggleCam">
-            <!-- Camera -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
-              x-bind:class="flags.isCam ? 'text-red-500  ' : ''">
-              <path
-                d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
-            </svg>
-            <!-- Ban Camera -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 absolute top-0 left-0" fill="none"
-              viewBox="0 0 24 24" stroke="currentColor" x-show="flags.isCam">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-            </svg>
-          </a>
-          <!-- Hand Raised -->
-          <a href="#" class="h-12 w-12 rounded-full bg-gray-800 flex items-center justify-center relative"
-            @click="handRaised" x-bind:class="flags.handRaised ? 'bg-green-500' : ''">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd"
-                d="M9 3a1 1 0 012 0v5.5a.5.5 0 001 0V4a1 1 0 112 0v4.5a.5.5 0 001 0V6a1 1 0 112 0v5a7 7 0 11-14 0V9a1 1 0 012 0v2.5a.5.5 0 001 0V4a1 1 0 012 0v4.5a.5.5 0 001 0V3z"
-                clip-rule="evenodd" />
-            </svg>
-          </a>
-          <!-- Share Screen -->
-          <a href="#" class="h-12 w-12 rounded-full bg-gray-800 flex items-center justify-center relative"
-            x-on:click="shareScreen">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-              x-show="!flags.shareScreen">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-            </svg>
-            <!-- Close Share Screen -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-              x-show="flags.shareScreen"
-              x-bind:class="flags.shareScreen ? 'bg-green-800 rounded-full h-10 w-10 font-noraml': ''">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </a>
-          <div class="h-12 w-12 rounded-full bg-gray-800 flex items-center justify-center relative" >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" @click="moreInfo">
-                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-            </svg>
-            <div class="p-6 bg-gray-900 rounded-lg shadow-xl text-gray-200 shadow absolute left-0 bottom-16" x-show="flags.moreInfo">
-                <div class="">
-                    <label for="">Cameras</label>
-                    <select name="" class="w-48 bg-gray-700 py-2 px-4 mt-2 focus:outline-none" @change="setDevices()" x-model="selectedCamera">
-                        <option value="">Select a camera</option>
-                        <template x-for="camera in cameras">
-                            <option :value="camera.deviceId" x-text="camera.label"></option>
-                        </template>
-                    </select>
-                </div>
-                <div class="mt-4">
-                    <label for="">Microphones</label>
-                    <select name="" class="w-48 bg-gray-700 py-2 px-4 mt-2 focus:outline-none">
-                        <option value="">Select a microphone</option>
-                        <template x-for="microphone in microphones">
-                            <option value="" x-text="microphone.label"></option>
-                        </template>
-                    </select>
-                </div>
-                <div class="mt-4">
-                    <label for="">Speakers</label>
-                    <select name="" class="w-48 bg-gray-700 py-2 px-4 mt-2 focus:outline-none">
-                        <option value="">Select a speaker</option>
-                        <template x-for="speaker in speakers">
-                            <option value="" x-text="speaker.label"></option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-        </div>
-          <!-- End Call -->
-          <a href="#" class="h-12 w-16 rounded-full bg-red-500 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path
-                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-            </svg>
-          </a>
-        </div>
-        <div class="flex  space-x-4">
-          <!-- Info -->
-          <a href="" class="">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </a>
-          <!-- Participants People Users -->
-          <a href="" class="">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-            <div class="bg-black px-2 py-1 rounded-full absolute top-5 right-24">12</div>
-          </a>
-          <!-- Chat -->
-          <a href="" class="">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-          </a>
-          <!-- Notes -->
-        <a href="#" class="relative">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="toggleNotes()">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-          </svg>
-          <div x-show="flags.isNotes" class="bg-white absolute bottom-10 right-0 h-96 w-96 rounded-t shadow overflow-hidden">
-              <div class="bg-blue-500 text-white py-3 px-4 rounded-t">Notes</div>
-              <textarea class="text-gray-900 h-full w-full focus:outline-none p-4" x-text="meetingNotes">
-
-              </textarea>
           </div>
-      </a>
-        </div>
-      </div>
-    </div>
+          <!-- Guest joined -->
+          <div class="p-4 bg-black bg-opacity-80 fixed top-12 left-1/2 transform -translate-x-1/2 w-1/3 rounded-lg" x-show="meetingStarted && isAdmin && peopleInLobby.length > 0">
+              <div class="flex items-center justify-between relative">
+                  <div class=""><span class="font-semibold" x-text="peopleInLobby.length == 1 ? peopleInLobby[0].name + ' is ' : peopleInLobby.length + ' people '"></span> waiting in the lobby</div>
+                  <div class="flex" x-show="peopleInLobby.length == 1">
+                      <button class="text-red-400 py-1 px-2 rounded" @click="removePerson(peopleInLobby[0])">Remove</button>
+                      <button class="border border-white py-1 px-2 rounded" @click="admitPerson(peopleInLobby[0])">Admit</button>
+                  </div>
+                  <button class="border border-white py-1 px-2 rounded" x-show="peopleInLobby.length > 1" @click="showLobby = !showLobby;">Check lobby</button>
+                  <div class="absolute top-12 w-full rounded-b-lg border border-black" x-show="showLobby && peopleInLobby.length > 1">
+                      <template x-for="(personInLobby, i) in peopleInLobby">
+                          <div class="flex items-center justify-between px-4 py-2 opacity-90" :class="i % 2 ? 'bg-gray-800 ' : 'bg-gray-900'">
+                              <div class=""><span class="font-semibold" x-text="personInLobby.name"></span></div>
+                              <div class="flex">
+                                  <button class="text-red-400 py-1 px-2 rounded" @click="removePerson(personInLobby)">Remove</button>
+                                  <button class="border border-white py-1 px-2 rounded" @click="admitPerson(personInLobby)">Admit</button>
+                              </div>
+                          </div>
+                      </template>
+                  </div>
+              </div>
+          </div>
+          <!-- Bottom Bar -->
+          <div class="fixed bottom-0 left-0 w-full p-6 bg-gray-700 flex justify-between items-center" x-show="meetingStarted">
+              <div class="md:flex items-center md:space-x-2">
+                  <span x-text="time"></span>
+                  <span>|</span>
+                  <div class="flex items-center" x-show="meetingStarted">
+                      <span x-ref="meetingCode" x-text="meetingCode"></span>
+                      <a
+                          href="#"
+                          class="ml-4 h-8 w-8 bg-gray-800 flex items-center justify-center rounded"
+                          @click="navigator.clipboard.writeText($refs.meetingCode.innerHTML)"
+                      >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+                              <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+                          </svg>
+                      </a>
+                  </div>
+              </div>
+              <div class="md:flex items-center justify-between md:space-x-4 ">
+                  <!-- Microphone -->
+                  <a href="#" class="h-12 w-12 rounded-full bg-gray-800 flex items-center justify-center relative" @click="toggleMicrophone()">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd" />
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 absolute top-0 left-0 text-red-500 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-show="!flags.isMicrophoneOn">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                      </svg>
+                  </a>
+                  <!-- Video -->
+                  <a href="#" class="h-12 w-12 rounded-full bg-gray-800 flex items-center justify-center relative" @click="toggleCamera()">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 absolute top-0 left-0 text-red-500 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-show="!flags.isCameraOn">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                      </svg>
+                  </a>
+                  <!-- Raise Hand -->
+                  <a href="#" class="h-12 w-12 rounded-full flex items-center justify-center" :class="flags.isHandRaised ? 'bg-green-500' : 'bg-gray-800'" @click="toggleHandRaised()">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M9 3a1 1 0 012 0v5.5a.5.5 0 001 0V4a1 1 0 112 0v4.5a.5.5 0 001 0V6a1 1 0 112 0v5a7 7 0 11-14 0V9a1 1 0 012 0v2.5a.5.5 0 001 0V4a1 1 0 012 0v4.5a.5.5 0 001 0V3z" clip-rule="evenodd" />
+                      </svg>
+                  </a>
+                  <!-- Share Screen (Temporary) -->
+                  <a href="#" class="h-12 w-12 rounded-full flex items-center justify-center" :class="flags.isScreenShared ? 'bg-green-500' : 'bg-gray-800'" @click="toggleScreenShared()">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" x-show="!flags.isScreenShared">
+                          <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-show="flags.isScreenShared">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                  </a>
+                  <!-- Settings -->
+                  <div class="h-12 w-12 rounded-full bg-gray-800 flex items-center justify-center relative">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" @click="toggleSettingsShown()">
+                          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                      </svg>
+                      <div class="p-6 bg-gray-900 rounded-lg shadow-xl text-gray-200 shadow absolute left-0 bottom-16" x-show="flags.isSettingsShown">
+                          <div class="">
+                              <label for="">Cameras</label>
+                              <select name="" class="w-48 bg-gray-700 py-2 px-4 mt-2 focus:outline-none" @change="setDevices()" x-model="selectedCamera">
+                                  <option value="">Select a camera</option>
+                                  <template x-for="camera in cameras">
+                                      <option :value="camera.deviceId" x-text="camera.label"></option>
+                                  </template>
+                              </select>
+                          </div>
+                          <div class="mt-4">
+                              <label for="">Microphones</label>
+                              <select name="" class="w-48 bg-gray-700 py-2 px-4 mt-2 focus:outline-none">
+                                  <option value="">Select a microphone</option>
+                                  <template x-for="microphone in microphones">
+                                      <option value="" x-text="microphone.label"></option>
+                                  </template>
+                              </select>
+                          </div>
+                          <div class="mt-4">
+                              <label for="">Speakers</label>
+                              <select name="" class="w-48 bg-gray-700 py-2 px-4 mt-2 focus:outline-none">
+                                  <option value="">Select a speaker</option>
+                                  <template x-for="speaker in speakers">
+                                      <option value="" x-text="speaker.label"></option>
+                                  </template>
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Call Disconnect -->
+                  <a href="#" class="h-12 w-20 rounded-full bg-red-500 flex items-center justify-center" @click="endMeeting" >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" @click="endMeeting">
+                          <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                      </svg>
+                  </a>
+              </div>
+              <div class="flex items-center justify-between space-x-6"">
+                  <!-- Information -->
+                  <a href="#" class="">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                  </a>
+                  <!-- Participants -->
+                  <a href="#" class="relative">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="toggleParticipants()">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                      <span class="absolute -top-4 -right-3 bg-gray-900 py-1 px-2 rounded-full text-xs" x-text="participants.length"></span>
+                  </a>
+                  <!-- Messages -->
+                  <a href="#" class="">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                      </svg>
+                  </a>
+                  <!-- Notes -->
+                  <a href="#" class="relative">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="toggleNotes()">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                      </svg>
+                      <div x-show="flags.isNotes" class="bg-white absolute bottom-10 right-0 h-96 w-96 rounded-t shadow overflow-hidden">
+                          <div class="bg-blue-500 text-white py-3 px-4 rounded-t">Notes</div>
+                          <textarea class="text-gray-900 h-full w-full focus:outline-none p-4" x-text="meetingNotes">
+                          </textarea>
+                      </div>
+                  </a>
+              </div>
+          </div>
+      <!-- </template> -->
   </div>
-
-
-
   <script>
-    function data() {
-      return {
-        
-        isAdmin: false,
-        time: "__:__",
-        flags: {
-          isMic: false,
-          isCam: false,
-          handRaised: false,
-          shareScreen: false,
-          moreInfo: false,
-          isNotes: false,
-        },
-        meetingTitle: "",
-        meetingCode: "",
-        meetingStarted: false,
-        meetingNotes: "",
-
-        // shortcut(e){
-        //   console.log(e.code);
-        // },
-
-
-        roomExists(){
-          // TODO: Check firebase before returning a value
-          return true;
-        },
-
-        getRoom(){
-          let url = new URL(location.href);
-          let params = new URLSearchParams(url.search);
-          
-          this.meetingCode = params.get("fm");
-          if (this.meetingCode !== null && roomExists()) {
-            this.meetingStarted = true;
-            this.setDevices();
-            this.getDevices();
-          }
-        },
-        rtcConfig: {
-          iceServers: [
-            {
-              urls: "stun:stun.services.mozilla.com",
-            },
-            {
-              urls: "stun:stun.l.google.com:19302",
-            },
-          ],
-        },
-        peerConnection: null,
-        createRoom: async function(){
-          let $this = this;
-          await this.getDevices();
-          await this.setDevices();
-            // Store data in firebase
-            $this.peerConnection = new RTCPeerConnection($this.rtcConfig);
-            $this.combinedStream.getTracks().forEach(
-              track => this.peerConnection.addTrack( track, $this.combinedStream)
-            );
-            let roomRef = firestore.collection("rooms").doc();
-            const callerCandidatesCollection = roomRef.collection("callerCandidates");
-            this.meetingCode = roomRef.id;
-
-            $this.peerConnection.addEventListener("icecandidate", event => {
-              if (!event.candidate) {
-                return;
-              }
-              callerCandidatesCollection.add(event.candidate.toJSON());
-            });
-
-            const offer = await $this.peerConnection.createOffer();
-            await $this.peerConnection.setLocalDescription(offer);
-
-            const roomWithOffer = {
-              meetingTitle:this.meetingTitle,
-              meetingCode: this.meetingCode,
-              offer: {
-                type: offer.type,
-                sdp: offer.sdp,
-
+      function data(){
+          return {
+              time: "__:__",
+              isAdmin: false,
+              flags: {
+                  isMicrophoneOn: false,
+                  isCameraOn: true,
+                  isHandRaised: false,
+                  isScreenShared: false,
+                  isSettingsShown: false,
+                  isNotes: false,
+                  showParticipants: false,
               },
-              roomId: roomRef.id,
-            };
-            roomRef.set(roomWithOffer);
 
+              showCreateForm: true,
+              showJoinForm: false,
 
+              // Room management
+              showLobby: false,
+              peopleInLobby: [
+              ],
+              admitPerson(_person){
+                  this.peopleInLobby = this.peopleInLobby.filter( person => person !== _person);
+                  this.participants.push(_person);
+              },
+              removePerson(_person){
+                  this.peopleInLobby = this.peopleInLobby.filter( person => person !== _person);
+              },
 
+              removeFromMeeting(_person){
+                  this.participants = this.participants.filter( person => person !== _person);
+              },
 
+              hostName: "",
+              guestName: "",
+              meetingTitle: "",
+              meetingCode: "",
+              meetingStarted: false,
 
-                    this.meetingStarted = true;
-                    window.history.replaceState({}, "", "?mf="+ this.meetingCode);
-                    document.title = "🔥 " + this.meetingTitle;
-                    
-                },
+              meetingNotes: "",
 
-                joinRoom: async function(){
+              shortcut(e){
+                  console.log(e.code);
+              },
+
+              roomExists(){
+                  // TODO: Check firebase before returning this value
+                  return true;
+              },
+              getRoom(){
+                  let url = new URL(window.location.href);
+                  let params = new URLSearchParams(url.search);
+                  this.meetingCode = params.get("mfos");
+                  if( this.meetingCode !== null  && this.roomExists() && this.flags.isCameraOn){
+                      this.meetingStarted = true;
+                      this.setDevices();
+                  }
+              },
+              rtcConfig: {
+                  iceServers: [
+                      { urls: 'stun:stun.services.mozilla.com' },
+                      { urls: 'stun:stun.l.google.com:19302' },
+                  ]
+              },
+              createRoom: async function(){
+                  let $this = this;
+                  await $this.getDevices();
+                  await $this.setDevices();
+
+                  $this.isAdmin = true;
+
+                  $this.peerConnection = new RTCPeerConnection($this.rtcConfig);
+                  $this.combinedStream.getTracks().forEach( 
+                      track => $this.peerConnection.addTrack(track, $this.combinedStream)
+                  );
+                  // Store data in firebase
+                  const roomRef = firestore.collection("rooms").doc();
+                  const callerCandidatesCollection = roomRef.collection("callerCandidates");
+
+                  $this.peerConnection.addEventListener("icecandidate", event => {
+                      // Final candidate
+                      if(!event.candidate){
+                          return;
+                      }
+                      // Potential candidate
+                      callerCandidatesCollection.add(event.candidate.toJSON());
+                  });
+                  const offer = await $this.peerConnection.createOffer();
+                  await $this.peerConnection.setLocalDescription(offer);
+
+                  const roomWithOffer = {
+                      meetingTitle: this.meetingTitle,
+                      hostName: this.hostName,
+                      offer: {
+                          type: offer.type,
+                          sdp: offer.sdp,
+                      },
+                      roomId: roomRef.id,
+                     
+                  };
+                  $this.meetingTitle = "",
+                  $this.hostName = "",
+
+                  await roomRef.set(roomWithOffer);
+                  $this.meetingCode = roomRef.id;
+
+                  $this.remoteVideoStream = new MediaStream()
+                  remoteVideoElement = document.getElementById("remoteVideo");
+                  remoteVideoElement.srcObject = $this.remoteVideoStream;
+                  $this.peerConnection.addEventListener("track", event => {
+                      event.streams[0].getTracks().forEach( track => {
+                          $this.remoteVideoStream.addTrack(track);
+                      });
+                  });
+
+                  let closed = roomRef.onSnapshot( async snapshot => {
+                      const data = snapshot.data();
+                      if($this.peerConnection.iceConnectionState !== "closed"){
+                          if(!$this.peerConnection.currentRemoteDescription && data && data.answer){
+                              // Got remote description
+                              const rtcSesseionDescription = new RTCSessionDescription(data.answer);
+                              await $this.peerConnection.setRemoteDescription(rtcSesseionDescription);
+                          }
+                      }
+                  });
+
+                  let added = roomRef.collection("calleeCandidates").onSnapshot(snapshot => {
+                      snapshot.docChanges().forEach(async change => {
+                          if(change.type === "added"){
+                              let data = change.doc.data();
+                              await $this.peerConnection.addIceCandidate(new RTCIceCandidate(data));
+                          }
+                      });
+                  });
+                  
+                  $this.meetingStarted = true;
+                  window.history.replaceState({}, "", "?fm=" + $this.meetingCode);
+                  document.title = "🔥 " + $this.meetingTitle + " 🔥";
+
+                  return () => {
+                      closed();
+                      added();
+                  }
+              },
+
+              peerConnection: null,
+              remoteVideoStream: null,
+              joinRoom: async function(){
                   let $this = this;
                   $this.peerConnection = new RTCPeerConnection($this.rtcConfig);
-                  
+
                   const roomRef = firestore.collection("rooms").doc($this.meetingCode);
                   const roomSnapshot = await roomRef.get();
 
-                  if (roomSnapshot.exists) {
-                    console.log("Meeting Room Found")
-                  } else{
-                    console.log("Cant find")
+                  if(roomSnapshot.exists){
+                      console.log("Theres a room. Connecting!");
+                      await $this.getDevices();
+                      await $this.setDevices();
+                      $this.combinedStream.getTracks().forEach( 
+                          track => $this.peerConnection.addTrack(track, $this.combinedStream)
+                      );
+
+                      const calleeCandidatesCollection = roomRef.collection("calleeCandidates");
+                      $this.peerConnection.addEventListener("icecandidate", event => {
+                          if(!event.candidate){
+                              // Final candidate
+                              return;
+                          }
+                          // Potential Candidate
+                          calleeCandidatesCollection.add(event.candidate.toJSON());
+                      });
+
+                      $this.remoteVideoStream = new MediaStream()
+                      remoteVideoElement = document.getElementById("remoteVideo");
+                      remoteVideoElement.srcObject = $this.remoteVideoStream;
+                      // myVideoElement.muted = true;
+
+                      $this.peerConnection.addEventListener("track", event => {
+                          event.streams[0].getTracks().forEach( track => {
+                              $this.remoteVideoStream.addTrack(track);
+                          });
+                      });
+
+                      const offer = roomSnapshot.data().offer;
+                      await $this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+                      const answer = await $this.peerConnection.createAnswer();
+                      await $this.peerConnection.setLocalDescription(answer);
+
+                      const roomWithAnswer = {
+                          name: this.guestName,
+                          answer: {
+                              type: answer.type,
+                              sdp: answer.sdp,
+                          },
+                      };
+
+                      await roomRef.update(roomWithAnswer);
+
+                      let added = roomRef.collection("callerCandidates").onSnapshot( snapshot => {
+                          snapshot.docChanges().forEach( async change => {
+                              if(change.type === "added"){
+                                  let data = change.doc.data();
+                                  await $this.peerConnection.addIceCandidate(new RTCIceCandidate(data));
+                              }
+                          });
+                      });
+
+                      $this.meetingStarted = true;
+                      return () => added();
+                  } else {
+                      console.log("No such meeting");
                   }
-                },
+              },
 
+              selectedCamera: null,
+              selectedMicrophone: null,
+              selectedSpeaker: null,
+              cameras: [],
+              microphones: [],
+              speakers: [],
+              init(){
+                  this.currentTime();
+                  this.getDevices();
+                  this.getRoom();
+              },
+              getDevices: async function(){
+                  let $this = this;
+                  navigator
+                      .mediaDevices
+                      .enumerateDevices()
+                      .then( function(devices){
+                          devices.forEach(function(device){
+                              if(device.kind == "audioinput"){
+                                  $this.microphones.push(device);
+                              } else if(device.kind == "audiooutput"){
+                                  $this.speakers.push(device);
+                              } else if(device.kind == "videoinput"){
+                                  $this.cameras.push(device);
+                              }
+                          });
+                      });
+              },
+              combinedStream: null,
+              setDevices: async function(){
+                  let videoDevice = this.selectedCamera !== null ? { deviceId: this.selectedCamera } : true;
+                  let videoStream = await navigator.mediaDevices.getUserMedia({video: videoDevice, audio: false,});
+                  let audioStream = await navigator.mediaDevices.getUserMedia({video: false, audio: true});
 
-        selectedCamera: null,
-        selectedMicrophone: null,
-        selectedSpeakers: null,
-        cameras: [
-          
-        ],
-        microphones: [],
-        speakers: [],
-        init() {
-          this.currentTime();
-          this.getDevices();
-          this.getRoom();
-        },
-        getDevices: async function () {
-          let $this = this;
-          navigator.mediaDevices.enumerateDevices().then(function (devices) {
-            devices.forEach(function (device) {
-              if (device.kind == "audioinput") {
-                $this.microphones.push(device);
-              } else if (device.kind == "audiooutput") { $this.speakers.push(device); 
-              } else if (device.kind == "videoinput") { $this.cameras.push(device); }
-            });
-          });
-            // set Devices
-            this.setDevices()
-        },
-        toggleMic() {
-          this.flags.isMic = !this.flags.isMic;
-        },
-        toggleCam() {
+                  this.combinedStream = new MediaStream(
+                      [
+                          ...videoStream.getVideoTracks(), 
+                          ...audioStream.getAudioTracks()
+                      ]
+                  );
+                  myVideoElement = document.getElementById("myVideo");
+                  myVideoElement.srcObject = this.combinedStream;
+                  myVideoElement.muted = true;
+              },
+              toggleMicrophone(){
+                  this.flags.isMicrophoneOn = !this.flags.isMicrophoneOn;
+                  !this.combinedStream.getAudioTracks().forEach(track => track.enabled = this.flags.isMicrophoneOn);
+                  !this.flags.isMicrophoneOn ? myVideoElement.muted = false : myVideoElement.muted = true;
+                  
+                  
+              },
+              toggleCamera(){
+                  this.flags.isCameraOn = !this.flags.isCameraOn;
+                  this.combinedStream.getVideoTracks().forEach(track => track.enabled = this.flags.isCameraOn);
+              },
+              toggleHandRaised(){
+                  this.flags.isHandRaised = !this.flags.isHandRaised;
+              },
+              toggleParticipants(){
+                  this.flags.showParticipants = !this.flags.showParticipants;
+              },
+              toggleNotes(){
+                  this.flags.isNotes = !this.flags.isNotes;
+              },
+              screenStream: null,
+              toggleScreenShared: async function(){
+                  if(!this.flags.isScreenShared){
+                      this.screenStream = await navigator.mediaDevices.getDisplayMedia();
+                      console.log(this.screenStream)
+                      myScreen = document.getElementById("screenShare")
+                      myScreen.srcObject = this.screenStream;
+                      this.screenStream.getVideoTracks()[0]
+                          .addEventListener('ended', () => this.stopScreenShare());
+                      this.flags.isScreenShared = true;
+                  } else {
+                      this.stopScreenShare();
+                  }
+              },
+              stopScreenShare(){
+                  this.screenStream.getVideoTracks()[0].stop();
+                  this.flags.isScreenShared = false;
+                                     
+              },
+              toggleSettingsShown(){
+                  this.flags.isSettingsShown = !this.flags.isSettingsShown;
 
-          this.flags.isCam = !this.flags.isCam;
-        },
-        handRaised() {
+              },
+              endMeeting(){
+                  // End the meeting call
+                  this.meetingStarted = false;
+              },
 
-          this.flags.handRaised = !this.flags.handRaised;
-        },
-        stopScreenShare(){
-          var tracks = this.stream.getTracks();
-            tracks[0].stop();
-            this.flags.shareScreen = false;
-        },
-        stream: null,
-        shareScreen: async function() {
-          if (!this.flags.shareScreen) {
-            
-          this.stream = await navigator.mediaDevices.getDisplayMedia();
-          myScreen = document.getElementById("screenShare")
-          myScreen.srcObject = this.stream;
-          this.stream.getVideoTracks()[0].addEventListener("ended", ()=> {
-            this.stopScreenShare();
-          });
-          this.flags.shareScreen = true;
-          } else {
-            this.stopScreenShare();
-          }
-
-        },
-        moreInfo() {
-
-          this.flags.moreInfo = !this.flags.moreInfo;
-        },
-        
-        toggleNotes(){
-                    this.flags.isNotes = !this.flags.isNotes;
-                },
-        participants: [
-          {
-            name: "Alice",
-          },
-          {
-            name: "Bob",
-          },
-          {
-            name: "Charlie",
-          },
-          {
-            name: "elizabeth",
-          },
-          {
-            name: "farah",
-          },
-          {
-            name: "george",
-          },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          
-          {
-            name: "hard",
-          },
-
-        ],
-        combinedStream: null,
-        setDevices: async function(){
-          let videoDevice = this.selectedCamera !== null ? {deviceId: this.selectedCamera} : true;
-          
-            let videoStream = await navigator.mediaDevices.getUserMedia({
-            video: videoDevice,
-            audio: false,
-          });
-          let audioStream = await navigator.mediaDevices.getUserMedia({
-            video: false,
-            audio: true,
-          });
-          this.combinedStream = new MediaStream([...videoStream.getVideoTracks(),...audioStream.getAudioTracks(),]);
-          myVideoElement =  document.getElementById("myVideo");
-          myVideoElement.srcObject = this.combinedStream;
-          myVideoElement.muted = true;
-          },
-
-        currentTime() {
-          let $this = this;
-          setInterval(function () {
-            var date = new Date();
-            let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-            let hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-            $this.time = `${date.getHours()}:${minutes} | `;
-
-          }, 1000);
-        }
-      };
-    }
+              participants: [
+                  // {name: "Google", isMuted: false,},
+                  // {name: "Bing", isMuted: true,},
+                  // {name: "Yahoo",isMuted: true,},
+                  // {name: "Chrome",isMuted: false,},
+                  // {name: "Brave",isMuted: true,},
+                  // {name: "Firefox",isMuted: false,},
+                  // {name: "Opera",isMuted: false,},
+              ],
+              currentTime(){
+                  let $this = this;
+                  setInterval( function(){
+                      var date = new Date();
+                      let hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                      let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                      $this.time = `${hours}:${minutes}`; 
+                  }, 1000);
+              },
+          };
+      }
   </script>
-
 </body>
-
 </html>
